@@ -29,7 +29,8 @@
             executeDelegate = options.execute;
 
         self.canExecute = ko.computed(function() {
-            return canExecuteDelegate ? canExecuteDelegate() : true;
+            //Force chatty canExecuteDelegate() to boolean to avoid pointless update of subscribers (i.e. activity)
+            return canExecuteDelegate ? !!canExecuteDelegate() : true;
         });
 
         self.execute = function (arg1, arg2) {
@@ -57,7 +58,7 @@
         self.isExecuting = ko.observable();
 
         self.canExecute = ko.computed(function() {
-            return canExecuteDelegate ? canExecuteDelegate(self.isExecuting()) : !self.isExecuting();
+            return canExecuteDelegate ? !!canExecuteDelegate(self.isExecuting()) : !self.isExecuting();
         });
 
         self.execute = function (arg1, arg2) {
